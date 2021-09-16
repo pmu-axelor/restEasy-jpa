@@ -15,14 +15,15 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 import com.resteasyjpa.module.GuiceModule;
 
 public class AppServletContextListener extends GuiceResteasyBootstrapServletContextListener {
-	
+
 	@Override
-		protected List<? extends Module> getModules(ServletContext context) {
-			
-			return Arrays.asList(new GuiceModule(),new JpaPersistModule("expensesUnit"));  
-		}
- @Override
-protected void withInjector(Injector injector) {
-	 injector.getInstance(PersistService.class).start();
-}
+	protected List<? extends Module> getModules(ServletContext context) {
+
+		return Arrays.asList(new JpaPersistModule("expensesUnit"), new GuiceModule());
+	}
+
+	@Override
+	protected void withInjector(Injector injector) {
+		injector.getInstance(PersistService.class).start();
+	}
 }

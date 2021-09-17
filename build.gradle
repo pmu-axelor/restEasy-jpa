@@ -22,4 +22,6 @@ dependencies {
 	compile "org.hibernate:hibernate-core:5.5.6.Final"
 	compile "com.google.inject.extensions:guice-persist:${guiceVersion}"
 	compile "org.postgresql:postgresql:42.2.23"
+	
+	compile 'org.jboss.resteasy:resteasy-html:4.7.1.Final'
 }

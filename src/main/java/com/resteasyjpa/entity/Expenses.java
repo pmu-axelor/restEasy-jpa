@@ -12,19 +12,19 @@ public class Expenses {
     
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-	private String amount;
+	private Long id;
+	private int amount;
 	private Date date;
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(Long id) {
+		this.id = id;  
 	}
-	public String getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public Date getDate() {
@@ -33,7 +33,7 @@ public class Expenses {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Expenses(int id, String amount, Date date) {
+	public Expenses(Long id, int amount, Date date) {
 		super();
 		this.id = id;
 		this.amount = amount;

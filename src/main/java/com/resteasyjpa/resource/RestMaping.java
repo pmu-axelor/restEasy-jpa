@@ -1,20 +1,40 @@
 package com.resteasyjpa.resource;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.plugins.providers.html.View;
+
+import javax.persistence.Query;
+
 import com.google.inject.Inject;
+import com.resteasyjpa.entity.Expenses;
+import com.resteasyjpa.service.ServiceClas;
 
 
 @Path("/hello")
 public class RestMaping {
+		
+	@Inject
+	ServiceClas serviceClas;
 	
 	@Inject
 	EntityManager em;
@@ -39,23 +59,52 @@ public class RestMaping {
 		return Response.ok().entity(msg).build();
 	}
   
-	/*@POST
+	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addStudent() {
-		Student st = new Student();
-		st.setId(1);
-		st.setName("parvej");
-		st.setDepartment("backend");
-		st.setCity("surat");
-		return Response.ok().entity(st).build();
+		Expenses ex = new Expenses();
+		ex.setAmount(10000);
+		ex.setDate(new Date());
+		return Response.ok().entity(ex).build();
 		
 	}
 	
+	@GET
+	public View getDetails(@Context HttpServletResponse response,
+	@Context HttpServletRequest request){
+
+		Query query = em.createQuery("Select e from Expenses e");
+		List result = query.getResultList();
+	request.setAttribute("data", result);
+	return new View("index.jsp");
+	
+	}
+	
 	@POST
-	@Path("/addResource")    
-	public Response addDetails(@FormParam("name") String name, @FormParam("city") String city) {
-		return Response.ok().entity(" name : " + name + " city : " + city).build();
-	}*/
+	@Path("/addExpenses")  
+	public void addDetails( @Context HttpServletRequest req,@Context HttpServletResponse resp,
+			@FormParam("amt") int amount, @FormParam("edate") Date date) throws  ServletException, IOException, ParseException {
+		   Expenses ex = new Expenses();
+		   ex.setAmount(amount);
+		   System.out.println(amount);
+		   ex.setDate(serviceClas.getDateFromString("date"));
+		   serviceClas.createExpenses(ex);
+		   
+		   req.getRequestDispatcher("/index.jsp").forward(req, resp);;
+			
+	}
+	
+	@GET
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public void deleteDetails(@Context HttpServletRequest req,@Context HttpServletResponse resp,
+			@QueryParam("id") int id) throws IOException {
+		System.out.println("Id:" +id);
+		//serviceClas.deleteDetails(Integer.parseInt("id"));
+		
+		//resp.sendRedirect(req.getContextPath());
+	}
+	
 	
 }

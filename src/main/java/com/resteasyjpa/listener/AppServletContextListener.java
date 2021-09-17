@@ -15,6 +15,8 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 import com.resteasyjpa.module.GuiceModule;
 
 public class AppServletContextListener extends GuiceResteasyBootstrapServletContextListener {
+	
+	
 
 	@Override
 	protected List<? extends Module> getModules(ServletContext context) {

@@ -12,13 +12,13 @@
 <body>
     <table border="1">
       <tr>
-         <td>ID</td>
-         <td>Amount</td>
-         <td>Date</td>
+         <td><b>ID</b></td>
+         <td><b>Amount</b></td>
+         <td><b>Date</b></td>
          <td><b>Action</b></td>
       </tr>   
         <%
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
         
            List lst = (List)request.getAttribute("data");
         Iterator itr = lst.iterator();
@@ -30,6 +30,7 @@
            <td><%=details.getAmount() %></td>
            <td><%=DATE_FORMAT.format(details.getDate()) %></td>
            <td><a href="/RestEasyJpa/hello/delete?id=<%=details.getId() %>"><button type="button" >Delete</button></a></td>
+           
         </tr>  
         <%} %>
     </table> 

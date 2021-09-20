@@ -88,8 +88,6 @@ public class RestMaping {
 			@FormParam("amt") int amount, @FormParam("edate") String dateField) throws  ServletException, IOException, ParseException {
 		   Expenses ex = new Expenses();
 		   ex.setAmount(amount);
-		   System.out.println(amount);
-		   System.out.println(dateField);
 		   ex.setDate(serviceClas.getDateFromString(dateField));
 		   serviceClas.createExpenses(ex);
 		   
@@ -101,14 +99,10 @@ public class RestMaping {
 	@Path("/delete")
 	public void deleteDetails(@Context HttpServletRequest req,@Context HttpServletResponse resp,
 			@QueryParam("id") Long id) throws IOException, ServletException {
-		    System.out.println("Id:" +id);
 			serviceClas.deleteDetails(id);
 		
 		resp.sendRedirect("/RestEasyJpa/hello");
 		
-		// req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);;
-		
-		//	return new View("index.jsp");
 	}
 
 

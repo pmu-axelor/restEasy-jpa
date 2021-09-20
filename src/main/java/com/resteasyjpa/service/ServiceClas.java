@@ -34,10 +34,8 @@ public class ServiceClas {
 	}
 	
 	public Date getDateFromString(String dateString) throws ParseException {
-	        // String dateStr = dateString.substring(0,10);
 	        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	        Date date = df.parse(dateString);
-	        System.out.println(date);
 	        return date;  
 	    } 
 	}

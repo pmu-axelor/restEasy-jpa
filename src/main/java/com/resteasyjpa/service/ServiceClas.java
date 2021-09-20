@@ -3,6 +3,7 @@ package com.resteasyjpa.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.inject.Provider;
@@ -27,16 +28,17 @@ public class ServiceClas {
 	 }
 	
 	@Transactional
-	public void deleteDetails(int id) {
+	public void deleteDetails(Long id) {
 		Expenses ex =em.get().find(Expenses.class,id);
 		em.get().remove(ex);
 	}
 	
 	public Date getDateFromString(String dateString) throws ParseException {
-	  
+	        // String dateStr = dateString.substring(0,10);
 	        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	        Date date = df.parse(dateString);
-	        return date;
+	        System.out.println(date);
+	        return date;  
 	    } 
 	}
 

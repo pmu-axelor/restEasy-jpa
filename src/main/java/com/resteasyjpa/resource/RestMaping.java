@@ -2,7 +2,7 @@ package com.resteasyjpa.resource;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,6 +27,7 @@ import javax.persistence.Query;
 
 import com.google.inject.Inject;
 import com.resteasyjpa.entity.Expenses;
+
 import com.resteasyjpa.service.ServiceClas;
 
 
@@ -65,7 +66,7 @@ public class RestMaping {
 	public Response addStudent() {
 		Expenses ex = new Expenses();
 		ex.setAmount(10000);
-		ex.setDate(new Date());
+		//ex.setDate(new Date());
 		return Response.ok().entity(ex).build();
 		
 	}
@@ -76,35 +77,39 @@ public class RestMaping {
 
 		Query query = em.createQuery("Select e from Expenses e");
 		List result = query.getResultList();
-	request.setAttribute("data", result);
-	return new View("index.jsp");
+	    request.setAttribute("data", result);
+	    return new View("index.jsp");
 	
 	}
 	
 	@POST
 	@Path("/addExpenses")  
 	public void addDetails( @Context HttpServletRequest req,@Context HttpServletResponse resp,
-			@FormParam("amt") int amount, @FormParam("edate") Date date) throws  ServletException, IOException, ParseException {
+			@FormParam("amt") int amount, @FormParam("edate") String dateField) throws  ServletException, IOException, ParseException {
 		   Expenses ex = new Expenses();
 		   ex.setAmount(amount);
 		   System.out.println(amount);
-		   ex.setDate(serviceClas.getDateFromString("date"));
+		   System.out.println(dateField);
+		   ex.setDate(serviceClas.getDateFromString(dateField));
 		   serviceClas.createExpenses(ex);
 		   
-		   req.getRequestDispatcher("/index.jsp").forward(req, resp);;
+			resp.sendRedirect("/RestEasyJpa/hello");
 			
 	}
 	
 	@GET
-	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/delete")
 	public void deleteDetails(@Context HttpServletRequest req,@Context HttpServletResponse resp,
-			@QueryParam("id") int id) throws IOException {
-		System.out.println("Id:" +id);
-		//serviceClas.deleteDetails(Integer.parseInt("id"));
+			@QueryParam("id") Long id) throws IOException, ServletException {
+		    System.out.println("Id:" +id);
+			serviceClas.deleteDetails(id);
 		
-		//resp.sendRedirect(req.getContextPath());
+		resp.sendRedirect("/RestEasyJpa/hello");
+		
+		// req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);;
+		
+		//	return new View("index.jsp");
 	}
-	
-	
+
+
 }

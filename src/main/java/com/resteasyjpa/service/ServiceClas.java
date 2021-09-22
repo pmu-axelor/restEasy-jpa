@@ -21,15 +21,17 @@ public class ServiceClas {
 	 Provider<EntityManager> em;
 	
 	@Transactional
-	 public void createExpenses(int amount ,String dateField) throws ParseException {
+	 public void createExpenses(int amount ,String dateField,String category) throws ParseException {
 		  Date date = df.parse(dateField);
 		  
 		  Expenses ex = new Expenses();
 		  ex.setAmount(amount);
 		  ex.setDate(date);
+		 Category catg = new Category();
+		 catg.setName(category);
 			
-			
-		em.get().persist(ex);	
+		em.get().persist(ex);
+		em.get().persist(catg);
 	 }
 	
 	@Transactional

@@ -75,8 +75,9 @@ public class RestMaping {
 	public View getDetails(@Context HttpServletResponse response,
 	@Context HttpServletRequest request){
 
-		Query query = em.createQuery("Select e from Expenses e");
-		List result = query.getResultList();
+		//List result = em.createQuery("Select e  from Expenses e ").getResultList();
+		List<Object[]> result = em.createQuery("Select e.id, c.name, e.amount, e.date  from Expenses e Join Category c on e.id = c.id").getResultList();
+		//List result = query.getResultList();
 	    request.setAttribute("data", result);
 	    return new View("index.jsp");
 	
@@ -85,9 +86,9 @@ public class RestMaping {
 	@POST
 	@Path("/addExpenses")  
 	public void addDetails( @Context HttpServletRequest req,@Context HttpServletResponse resp,
-			@FormParam("amt") int amount, @FormParam("edate") String dateField) throws  ServletException, IOException, ParseException {
+			@FormParam("amt") int amount, @FormParam("edate") String dateField, @FormParam("catg") String category ) throws  ServletException, IOException, ParseException {
 		
-		     serviceClas.createExpenses(amount,dateField);
+		     serviceClas.createExpenses(amount,dateField,category);
 		   
 			 resp.sendRedirect(req.getContextPath() + "/hello");
 			

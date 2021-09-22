@@ -1,27 +1,25 @@
 package com.resteasyjpa.entity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.ws.rs.WebApplicationException;
-
-import org.hibernate.type.LocalDateType;
+import javax.persistence.SequenceGenerator;
 
 
 @Entity
 public class Expenses {
     
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="seq_gen")
+	@SequenceGenerator(name = "seq_gen",allocationSize=1)
 	private Long id;
 	private int amount;
 	private Date date;
+	
+	
 	
 	
 	public Long getId() {
@@ -47,6 +45,7 @@ public class Expenses {
 		this.id = id;
 		this.amount = amount;
 		this.date = date;
+		
 	}
 	
 	public Expenses() {

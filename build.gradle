@@ -24,4 +24,6 @@ dependencies {
 	compile "org.postgresql:postgresql:42.2.23"
 	
 	compile 'org.jboss.resteasy:resteasy-html:4.7.1.Final'
+	
+  	
 }

@@ -49,16 +49,6 @@ public class Expenses {
 		this.date = date;
 	}
 	
-	/*private static final SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
-	public Expenses(String dateStr) {
-		 try {
-	            date = new Date(df.parse(dateStr).getTime());
-	        } catch ( final ParseException ex ) {
-	            // Wrap up any expection as javax.ws.rs.WebApplicationException
-	            throw new WebApplicationException( ex );
-	        }
-	}*/
-	
 	public Expenses() {
 		super();
 	}

@@ -6,6 +6,7 @@
       <persistence-unit name="expensesUnit" transaction-type="RESOURCE_LOCAL">
            <provider>org.hibernate.ejb.HibernatePersistence</provider>  
              <!--  <class>com.resteasyjpa.entity.Expenses</class> -->
+             <!-- <class>com.resteasyjpa.entity.Category</class> -->
           <properties>
                      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
                     <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/student-data" /> <!-- BD Mane -->

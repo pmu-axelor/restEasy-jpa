@@ -21,20 +21,21 @@
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
         
            List lst = (List)request.getAttribute("data");
-        Iterator itr = lst.iterator();
-         while(itr.hasNext()){
+          Iterator itr = lst.iterator();
+            while(itr.hasNext()){
         	 Expenses details = (Expenses)itr.next();
         %>
         <tr>
            <td><%=details.getId() %></td>
            <td><%=details.getAmount() %></td>
-           <td><%=DATE_FORMAT.format(details.getDate()) %></td>
+           <td><%=DATE_FORMAT.format(details.getDate())%></td>
            <td><a href="/RestEasyJpa/hello/delete?id=<%=details.getId() %>"><button type="button" >Delete</button></a></td>
            
         </tr>  
         <%} %>
     </table> 
     <br>
-      <a a href="add.jsp"><button type="button">ADD</button></a> 
+      <a  href="add.jsp"><button type="button">ADD</button></a> 
+       <a href="addCategory.jsp"><button type="button">ADD CATEGORY</button></a>
 </body>
 </html>

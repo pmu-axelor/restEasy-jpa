@@ -2,14 +2,15 @@ package com.resteasyjpa.resource;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,17 +24,17 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.resteasy.plugins.providers.html.View;
 
-import javax.persistence.Query;
-
+import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.resteasyjpa.entity.Category;
 import com.resteasyjpa.entity.Expenses;
-
 import com.resteasyjpa.service.ServiceClas;
-
 
 @Path("/hello")
 public class RestMaping {
-		
+	
+	
+	
 	@Inject
 	ServiceClas serviceClas;
 	
@@ -66,7 +67,6 @@ public class RestMaping {
 	public Response addStudent() {
 		Expenses ex = new Expenses();
 		ex.setAmount(10000);
-		//ex.setDate(new Date());
 		return Response.ok().entity(ex).build();
 		
 	}
@@ -86,12 +86,10 @@ public class RestMaping {
 	@Path("/addExpenses")  
 	public void addDetails( @Context HttpServletRequest req,@Context HttpServletResponse resp,
 			@FormParam("amt") int amount, @FormParam("edate") String dateField) throws  ServletException, IOException, ParseException {
-		   Expenses ex = new Expenses();
-		   ex.setAmount(amount);
-		   ex.setDate(serviceClas.getDateFromString(dateField));
-		   serviceClas.createExpenses(ex);
+		
+		     serviceClas.createExpenses(amount,dateField);
 		   
-			resp.sendRedirect("/RestEasyJpa/hello");
+			 resp.sendRedirect(req.getContextPath() + "/hello");
 			
 	}
 	
@@ -101,9 +99,28 @@ public class RestMaping {
 			@QueryParam("id") Long id) throws IOException, ServletException {
 			serviceClas.deleteDetails(id);
 		
-		resp.sendRedirect("/RestEasyJpa/hello");
+		resp.sendRedirect(req.getContextPath() + "/hello");
 		
 	}
+   
+	@GET
+	@Path("/dropDown")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List getcategory(@Context HttpServletResponse response,
+	@Context HttpServletRequest request) throws ServletException, IOException{
 
+		Query query = em.createQuery("Select c from Category c");
+		List result = query.getResultList();
+		return result;
+	}
+	
+	@POST
+	@Path("/addCategory")
+	 public void addCategoryDetails(@Context HttpServletRequest req,@Context HttpServletResponse resp,
+			@FormParam("name") String name) throws IOException {
+		serviceClas.createCategory(name);
+		resp.sendRedirect(req.getContextPath() + "/hello");
+	}
+	
 
 }
